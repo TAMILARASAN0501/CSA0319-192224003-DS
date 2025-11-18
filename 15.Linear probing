@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define TABLE_SIZE 10
+
+int hash(int key) {
+    return key % TABLE_SIZE;
+}
+
+void insert(int hashTable[], int key) {
+    int index = hash(key);
+    int count = 0;
+
+    while (hashTable[index] != -1) {
+        index = (index + 1) % TABLE_SIZE;
+        count++;
+
+        
+        if (count == TABLE_SIZE) {
+            printf("Hash table is full. Cannot insert key %d.\n", key);
+            return;
+        }
+    }
+
+    hashTable[index] = key;
+    printf("Inserted key %d at index %d.\n", key, index);
+}
+
+
+bool search(int hashTable[], int key) {
+    int index = hash(key);
+    int count = 0;
+
+    while (hashTable[index] != key) {
+        index = (index + 1) % TABLE_SIZE;
+        count++;
+
+        
+        if (hashTable[index] == -1 || count == TABLE_SIZE) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+void displayHashTable(int hashTable[]) {
+    printf("Hash table:\n");
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        printf("%d -> %d\n", i, hashTable[i]);
+    }
+}
+
+int main() {
+    int hashTable[TABLE_SIZE];
+
+        for (int i = 0; i < TABLE_SIZE; i++) 
+		{
+        hashTable[i] = -1;
+    }
+
+    insert(hashTable, 12);
+    insert(hashTable, 25);
+    insert(hashTable, 35);
+    insert(hashTable, 47);
+    insert(hashTable, 18);
+
+    displayHashTable(hashTable);
+
+    int keyToSearch = 25;
+    if (search(hashTable, keyToSearch)) 
+	{
+        printf("Key %d is found in the hash table.\n", keyToSearch);
+    }
+	 else 
+	{
+        printf("Key %d is not found in the hash table.\n", keyToSearch);
+    }
+
+    keyToSearch = 30;
+    if (search(hashTable, keyToSearch)) 
+	{
+        printf("Key %d is found in the hash table.\n", keyToSearch);
+    } 
+	else 
+	{
+        printf("Key %d is not found in the hash table.\n", keyToSearch);
+    }
+    return 0;
+}
